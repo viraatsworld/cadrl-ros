@@ -1,35 +1,26 @@
 <?xml version="1.0"?>
-<package format="2">
+<package format="3">
   <name>cadrl_ros</name>
   <version>0.0.0</version>
-  <description>The cadrl_ros package</description>
+  <description>The cadrl_ros package (ROS 2 version)</description>
 
   <maintainer email="mfe@mit.edu">Michael Everett</maintainer>
-
-
-  <!-- One license tag required, multiple allowed, one license per tag -->
-  <!-- Commonly used license strings: -->
-  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
   <license>TODO</license>
 
-  <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>geometry_msgs</build_depend>
-  <build_depend>rospy</build_depend>
-  <build_depend>std_msgs</build_depend>
-  <build_depend>visualization_msgs</build_depend>
-  <build_export_depend>geometry_msgs</build_export_depend>
-  <build_export_depend>rospy</build_export_depend>
-  <build_export_depend>std_msgs</build_export_depend>
-  <build_export_depend>visualization_msgs</build_export_depend>
-  <exec_depend>geometry_msgs</exec_depend>
-  <exec_depend>rospy</exec_depend>
-  <exec_depend>std_msgs</exec_depend>
-  <exec_depend>visualization_msgs</exec_depend>
+  <!-- Build tool -->
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
+  <!-- Dependencies -->
+  <depend>rclpy</depend>
+  <depend>geometry_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>visualization_msgs</depend>
 
-  <!-- The export tag contains other, unspecified, tags -->
+  <!-- Optional: if you have Python launch files or scripts -->
+  <exec_depend>python3</exec_depend>
+
+  <!-- Export section -->
   <export>
-    <!-- Other tools can request additional information be placed here -->
-
+    <build_type>ament_cmake</build_type>
   </export>
 </package>
