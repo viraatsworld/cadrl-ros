@@ -4,6 +4,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 import time
+from keras import ops  # Keras ops are symbolic-safe
 
 class Actions():
     # Define 11 choices of actions to be:
@@ -29,20 +30,20 @@ class NetworkVPCore(object):
     def _create_model(self):
         """Create the Keras model"""
         pass  # Implemented in child class
-
     def _create_graph_outputs(self, fc1_output):
         """Create output layers"""
+
         # Policy head
         logits_p = keras.layers.Dense(self.num_actions, name='logits_p')(fc1_output)
-        softmax_p = tf.nn.softmax(logits_p)
-        softmax_p = (softmax_p + Config.MIN_POLICY) / (1.0 + Config.MIN_POLICY * self.num_actions)
+        softmax_p = keras.layers.Activation('softmax')(logits_p)
+        softmax_p = ops.divide(softmax_p + Config.MIN_POLICY,
+                            1.0 + Config.MIN_POLICY * self.num_actions)
 
         # Value head
         logits_v = keras.layers.Dense(1, name='logits_v')(fc1_output)
-        logits_v = tf.squeeze(logits_v, axis=[1])
+        logits_v = ops.squeeze(logits_v, axis=[1])
 
         return softmax_p, logits_v
-
     def predict_p(self, x):
         """Predict policy"""
         return self.model(x, training=False)[0].numpy()
@@ -57,10 +58,11 @@ class NetworkVPCore(object):
 
     def simple_load(self, filename=None):
         """Load model weights"""
-        if filename is None:
-            print("[network.py] Didn't define simple_load filename")
-            return
-        self.model.load_weights(filename)
+        import tensorflow as tf
+
+        ckpt = tf.train.Checkpoint(model=self.model)
+        status = ckpt.restore(filename)
+        status.expect_partial()
 
 
 class NetworkVP_rnn(NetworkVPCore):
@@ -91,21 +93,26 @@ class NetworkVP_rnn(NetworkVPCore):
             num_hidden = 64
             max_length = Config.MAX_NUM_OTHER_AGENTS_OBSERVED
 
-            # Split input into components
-            num_other_agents = input_layer[:, 0]
-            host_agent_vec = x_normalized[:, Config.FIRST_STATE_INDEX:Config.HOST_AGENT_STATE_SIZE+Config.FIRST_STATE_INDEX]
-            other_agent_vec = x_normalized[:, Config.HOST_AGENT_STATE_SIZE+Config.FIRST_STATE_INDEX:]
+            # Split input into components using Lambda layers
+            num_other_agents = keras.layers.Lambda(lambda x: x[:, 0])(input_layer)
+            host_agent_vec = keras.layers.Lambda(
+                lambda x: x[:, Config.FIRST_STATE_INDEX:Config.HOST_AGENT_STATE_SIZE+Config.FIRST_STATE_INDEX]
+            )(x_normalized)
+            other_agent_vec = keras.layers.Lambda(
+                lambda x: x[:, Config.HOST_AGENT_STATE_SIZE+Config.FIRST_STATE_INDEX:]
+            )(x_normalized)
 
-            # Reshape for LSTM
-            other_agent_seq = tf.reshape(other_agent_vec,
-                                        [-1, max_length, Config.OTHER_AGENT_FULL_OBSERVATION_LENGTH])
+            # Reshape for LSTM using Reshape layer
+            other_agent_seq = keras.layers.Reshape(
+                (max_length, Config.OTHER_AGENT_FULL_OBSERVATION_LENGTH)
+            )(other_agent_vec)
 
             # LSTM layer
             lstm_layer = keras.layers.LSTM(num_hidden, return_state=True)
             rnn_outputs, state_h, state_c = lstm_layer(other_agent_seq)
 
-            # Concatenate host agent and LSTM output
-            layer1_input = tf.concat([host_agent_vec, state_h], 1)
+            # Concatenate host agent and LSTM output using Concatenate layer
+            layer1_input = keras.layers.Concatenate(axis=1)([host_agent_vec, state_h])
             layer1 = keras.layers.Dense(256, activation='relu',
                                        kernel_regularizer=regularizer,
                                        name='layer1')(layer1_input)
