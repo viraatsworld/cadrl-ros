@@ -36,6 +36,9 @@ import math
 # ROS2 Change: rospkg is replaced with ament_index_python
 from ament_index_python.packages import get_package_share_directory
 
+# Add the directory containing network.py to the Python path
+sys.path.append(os.path.dirname(__file__))
+
 import network
 import agent
 import util

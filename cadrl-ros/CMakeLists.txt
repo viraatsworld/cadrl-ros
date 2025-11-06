@@ -37,6 +37,9 @@ find_package(visualization_msgs REQUIRED)
 # Install Python scripts (ROS 2 uses lib/${PROJECT_NAME})
 install(PROGRAMS
   scripts/cadrl_node.py
+  scripts/network.py
+  scripts/agent.py
+  scripts/util.py
   DESTINATION lib/${PROJECT_NAME}
  )
 
