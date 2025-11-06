@@ -6,13 +6,16 @@ project(cadrl_ros)
 # add_compile_options(-std=c++14)
 
 # Find ament and dependencies
+
 find_package(ament_cmake REQUIRED)
 find_package(rclpy REQUIRED)
+find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(ford_msgs REQUIRED)
+
 find_package(std_msgs REQUIRED)
 find_package(visualization_msgs REQUIRED)
-
-# Include directories (if you have headers)
+# Include directories (if you have find_package(ford_msgs REQUIRED)headers)
 # include_directories(include)
 
 # Example for a C++ node (uncomment if needed)
@@ -22,9 +25,10 @@ find_package(visualization_msgs REQUIRED)
 #   geometry_msgs
 #   std_msgs
 #   visualization_msgs
+#   ford_msgs
 # )
 
-# Install C++ executable (if used)
+# # Install C++ executable (if used)
 # install(TARGETS
 #   ${PROJECT_NAME}_node
 #   DESTINATION lib/${PROJECT_NAME}

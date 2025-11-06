@@ -1,0 +1,24 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/adm-bak-vs/ign_ros2_control_ws/install/ign_ros2_control/include/**",
+        "/home/adm-bak-vs/ign_ros2_control_ws/install/gz_ros2_control/include/**",
+        "/home/adm-bak-vs/demonstrator/install/lego_pose_estimator_msgs/include/**",
+        "/home/adm-bak-vs/Home2/calib_it/install/easy_handeye2_msgs/include/**",
+        "/opt/ros/humble/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ros2",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++17"
+    }
+  ],
+  "version": 4
+}

@@ -1,0 +1,18 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/adm-bak-vs/demonstrator/install/lego_estimator/lib/python3.10/site-packages",
+        "/home/adm-bak-vs/demonstrator/install/lego_pose_estimator_msgs/lib/python3.10/site-packages",
+        "/home/adm-bak-vs/Home2/calib_it/install/easy_handeye2/lib/python3.10/site-packages",
+        "/home/adm-bak-vs/Home2/calib_it/install/easy_handeye2_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/adm-bak-vs/demonstrator/install/lego_estimator/lib/python3.10/site-packages",
+        "/home/adm-bak-vs/demonstrator/install/lego_pose_estimator_msgs/lib/python3.10/site-packages",
+        "/home/adm-bak-vs/Home2/calib_it/install/easy_handeye2/lib/python3.10/site-packages",
+        "/home/adm-bak-vs/Home2/calib_it/install/easy_handeye2_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}
