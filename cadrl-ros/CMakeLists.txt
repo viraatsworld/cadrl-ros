@@ -49,5 +49,11 @@ install(DIRECTORY launch config
   OPTIONAL
 )
 
+# Install checkpoints so they are available at runtime
+install(DIRECTORY checkpoints/
+  DESTINATION share/${PROJECT_NAME}/checkpoints
+  OPTIONAL
+)
+
 # Export package
 ament_package()
